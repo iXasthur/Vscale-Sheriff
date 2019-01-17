@@ -1,8 +1,8 @@
 require 'net/http'
 require 'uri'
 
+system "clear"
 puts
-
 
 TOKEN_LINE_IN_FILE = 1
 PROGRAM_FOLDER_PATH = Dir.pwd
@@ -12,11 +12,13 @@ ACC_FILE = "AccountPreferences.txt"
 TOKEN = IO.readlines(ACC_FILE)[TOKEN_LINE_IN_FILE].chomp
 
 
+
 def launchInfo
     puts '---VscaleServerManager v1'
     puts ('AppFolder: ' + PROGRAM_FOLDER_PATH)
     # puts (Dir.entries(PROGRAM_FOLDER_PATH))
     puts ('Token: ' + TOKEN)
+    getAccInfo()
     puts
 end
 
@@ -24,10 +26,15 @@ end
 def showAccInfo(str)
   # puts str
 
-  puts str.index("email")
-
   if str.index("email")!=nil then
-    puts '1'
+    print 'email: '
+    i = str.index("email") + "email".length + 3
+    while str[i]!='"' do
+      print str[i]
+      i+=1
+    end
+
+    puts
   end
 
 end
@@ -65,4 +72,5 @@ end
 ######
 
 launchInfo()
-getAccInfo()
+
+
