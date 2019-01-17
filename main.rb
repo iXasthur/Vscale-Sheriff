@@ -1,5 +1,6 @@
 require 'net/http'
 require 'uri'
+require 'json'
 
 
 TOKEN_LINE_IN_FILE = 1
@@ -14,6 +15,12 @@ rdyToExit = false
 menuIsShown = false
 
 DEBUG_SERVER_LIST = ""
+
+$SERVER_NAMES_ARRAY = Array.new()
+$SERVER_CTID_ARRAY = Array.new()
+
+
+
 
 
 def clearScreen
@@ -87,8 +94,49 @@ end
 
 def getServerList(str)
   puts str
+  puts
+
+  $SERVER_NAMES_ARRAY.clear()
+  $SERVER_CTID_ARRAY.clear()
+  $SERVER_AMOUNT_CACHED = 0
+
+  # puts str.index("\"name\"")
+  buffName = ""
+  buffCTID = ""
 
 
+  while str.index("\"name\"")!=nil do
+    i = str.index("\"name\"") + "\"name\"".length + 3
+
+    while str[i]!='"' do
+      buffName << str[i]
+      i+=1
+    end
+    str[str.index("\"name\"")+1] = ""
+
+    if str.index("\"ctid\"")!=nil then
+      i = str.index("\"ctid\"") + "\"ctid\"".length + 2
+  
+      while str[i]!='}' do
+        buffCTID << str[i]
+        i+=1
+      end
+      str[str.index("\"ctid\"")+1] = ""
+
+      $SERVER_NAMES_ARRAY << buffName
+      $SERVER_CTID_ARRAY << buffCTID
+
+      buffName = ""
+      buffCTID = ""
+    end
+
+
+    # puts buffName
+    # puts buffCTID
+
+  end
+
+  
 end
 
 
@@ -133,6 +181,8 @@ def deleteServerByCTID(ctid)
   response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
     http.request(request)
   end
+
+  #####ADD ERROR HANDLER
 end
 
 def serverRemovalMenu
@@ -163,7 +213,17 @@ def serverRemovalMenu
     when '2'
       puts ("Not available")
     when '3'
-      puts ("Not available")
+      puts("Deleting " + $SERVER_CTID_ARRAY.length().to_s() + " servers")
+      if $SERVER_CTID_ARRAY.length()>0 then
+        for i in 0...$SERVER_CTID_ARRAY.length() do
+          deleteServerByCTID($SERVER_CTID_ARRAY[i])
+        end
+      end
+      syncServers()
+      clearScreen()
+      printAccInfo()
+      menuIsShown_RTool=false
+      puts
     else
       puts 'ERROR: Invalid Input'
     end
@@ -216,7 +276,17 @@ while rdyToExit==false do
     # puts (">Press [Enter] to continue")
     # gets
   when '4'
-    puts ("Not available")
+    clearScreen()
+    printAccInfo()
+    menuIsShown = false
+    puts
+
+    puts ("---Server list:")
+    for i in 0...$SERVER_CTID_ARRAY.length() do
+      puts ($SERVER_NAMES_ARRAY[i]+" "+$SERVER_CTID_ARRAY[i])
+    end
+
+    puts
   else
     puts 'ERROR: Invalid Input'
   end
