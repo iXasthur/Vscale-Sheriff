@@ -23,6 +23,7 @@ def clearScreen
   puts '---VscaleServerManager v1'
 end
 
+
 def printAccInfo
     puts ('AppFolder: ' + PROGRAM_FOLDER_PATH)
     puts ('Token: ' + TOKEN)
@@ -51,6 +52,8 @@ def findAccInfo(str)
   end
 
 end
+
+
 
 def getAccInfo
     uri = URI.parse("https://api.vscale.io/v1/account")
@@ -83,7 +86,7 @@ end
 
 
 def getServerList(str)
-  puts DEBUG_SERVER_LIST
+  puts str
 
 
 end
@@ -117,9 +120,60 @@ def syncServers
 end
 
 
+def deleteServerByCTID(ctid)
+  uri = URI.parse("https://api.vscale.io/v1/scalets/" + ctid)
+  request = Net::HTTP::Delete.new(uri)
+  request.content_type = "application/json;charset=UTF-8"
+  request["X-Token"] = TOKEN
+  
+  req_options = {
+    use_ssl: uri.scheme == "https",
+  }
+  
+  response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+    http.request(request)
+  end
+end
+
+def serverRemovalMenu
+  rdyToExit_RTool = false
+  menuIsShown_RTool = false
 
 
-######
+  while rdyToExit_RTool==false do
+
+    if menuIsShown_RTool==false then
+      puts ("---Removal Tool:\n1-By ctid + show list\n2-By range + show list\n3-All \n0-Back")
+      puts
+      menuIsShown_RTool = true
+    end
+    print (">")
+    # key = gets()
+  
+    case gets().chomp()
+    when '0'
+      rdyToExit_RTool=true
+    when '1'
+      print("ctid: ")
+      deleteServerByCTID(gets().chomp())
+      clearScreen()
+      printAccInfo()
+      menuIsShown_RTool=false
+      puts
+    when '2'
+      puts ("Not available")
+    when '3'
+      puts ("Not available")
+    else
+      puts 'ERROR: Invalid Input'
+    end
+    
+  end
+
+end
+
+
+#############MAIN
 
 getInfo()
 
@@ -139,7 +193,16 @@ while rdyToExit==false do
   when '1'
     puts ("Not available")
   when '2'
-    puts ("Not available")
+    clearScreen()
+    printAccInfo()
+    menuIsShown = false
+    puts
+
+    serverRemovalMenu()
+
+    clearScreen()
+    printAccInfo()
+    puts
   when '3'
     clearScreen()
     printAccInfo()
