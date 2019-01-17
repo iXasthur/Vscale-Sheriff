@@ -90,3 +90,15 @@ $RECYCLE.BIN/
 xcuserdata/
 
 # End of https://www.gitignore.io/api/osx,xcode,linux,macos,windows
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+
+AccountPreferences.txt
