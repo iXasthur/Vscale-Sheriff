@@ -20,12 +20,16 @@ def launchInfo
     puts
 end
 
-def getResponse
 
-end
+def showAccInfo(str)
+  # puts str
 
-def showAccInfo(tx)
-  puts tx
+  puts str.index("email")
+
+  if str.index("email")!=nil then
+    puts '1'
+  end
+
 end
 
 def getAccInfo
@@ -45,7 +49,6 @@ def getAccInfo
 
     case response.code.to_i()
     when 200..299
-      # puts response.body
       showAccInfo(response.body)
     when 400..499
       puts 'ERROR: Can\'t access account'
@@ -54,7 +57,6 @@ def getAccInfo
     else
       puts 'Unknown ERROR'
     end
-
 
 
 end
