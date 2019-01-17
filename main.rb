@@ -1,40 +1,44 @@
 require 'net/http'
 require 'uri'
 
-system "clear"
+system "clear" or system "cls"
 puts
 
 TOKEN_LINE_IN_FILE = 1
 PROGRAM_FOLDER_PATH = Dir.pwd
+# puts (Dir.entries(PROGRAM_FOLDER_PATH))
 
 ACC_FILE = "AccountPreferences.txt"
-
 TOKEN = IO.readlines(ACC_FILE)[TOKEN_LINE_IN_FILE].chomp
+$EMAIL = ""
 
+rdyToExit = false
+
+def printAccInfo
+    puts ('AppFolder: ' + PROGRAM_FOLDER_PATH)
+    puts ('Token: ' + TOKEN)
+    puts ('E-mail: ' + $EMAIL)
+end
 
 
 def launchInfo
     puts '---VscaleServerManager v1'
-    puts ('AppFolder: ' + PROGRAM_FOLDER_PATH)
-    # puts (Dir.entries(PROGRAM_FOLDER_PATH))
-    puts ('Token: ' + TOKEN)
     getAccInfo()
+    printAccInfo()
     puts
 end
 
 
-def showAccInfo(str)
-  # puts str
+def findAccInfo(str)
 
   if str.index("email")!=nil then
-    print 'email: '
     i = str.index("email") + "email".length + 3
+
     while str[i]!='"' do
-      print str[i]
+      $EMAIL+=str[i]
       i+=1
     end
 
-    puts
   end
 
 end
@@ -56,7 +60,7 @@ def getAccInfo
 
     case response.code.to_i()
     when 200..299
-      showAccInfo(response.body)
+      findAccInfo(response.body)
     when 400..499
       puts 'ERROR: Can\'t access account'
     when 500..599
@@ -72,5 +76,18 @@ end
 ######
 
 launchInfo()
+
+while rdyToExit==false do
+  puts ("0-Exit")
+  # key = gets()
+
+  case gets.to_i()
+  when 0
+    rdyToExit=true
+  else
+    puts
+    puts 'ERROR: Invalid Input'
+  end
+end
 
 
