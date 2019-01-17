@@ -20,6 +20,14 @@ def launchInfo
     puts
 end
 
+def getResponse
+
+end
+
+def showAccInfo(tx)
+  puts tx
+end
+
 def getAccInfo
     uri = URI.parse("https://api.vscale.io/v1/account")
     request = Net::HTTP::Get.new(uri)
@@ -33,8 +41,19 @@ def getAccInfo
       http.request(request)
     end
 
-    puts response.code
-    puts response.body
+
+
+    case response.code.to_i()
+    when 200..299
+      # puts response.body
+      showAccInfo(response.body)
+    when 400..499
+      puts 'ERROR: Can\'t access account'
+    when 500..599
+      puts 'Vsacle Server is not available'
+    else
+      puts 'Unknown ERROR'
+    end
 
 
 
