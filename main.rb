@@ -1,11 +1,16 @@
 require 'net/http'
+require 'uri'
+
+puts
 
 
-File.open("AccPrefs.txt","r") do |file|
+TOKEN_LINE_IN_FILE = 1
+PROGRAM_FOLDER = Dir.pwd
 
-end
+ACC_FILE = "AccountPreferences.txt"
 
-TOKEN = ""
+
+TOKEN = IO.readlines(ACC_FILE)[TOKEN_LINE_IN_FILE].chomp
 
 
 def launchInfo
