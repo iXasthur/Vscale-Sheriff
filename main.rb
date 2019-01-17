@@ -5,17 +5,19 @@ puts
 
 
 TOKEN_LINE_IN_FILE = 1
-PROGRAM_FOLDER = Dir.pwd
+PROGRAM_FOLDER_PATH = Dir.pwd
 
 ACC_FILE = "AccountPreferences.txt"
-
 
 TOKEN = IO.readlines(ACC_FILE)[TOKEN_LINE_IN_FILE].chomp
 
 
 def launchInfo
     puts '---VscaleServerManager v1'
+    puts ('AppFolder: ' + PROGRAM_FOLDER_PATH)
+    # puts (Dir.entries(PROGRAM_FOLDER_PATH))
     puts ('Token: ' + TOKEN)
+    puts
 end
 
 def getAccInfo
