@@ -8,7 +8,7 @@ load 'serverSyncTool_Source.rb'
 
 ACC_FILE = "AccountPreferences.txt"
 TOKEN_LINE_IN_FILE = 1
-TOKEN = IO.readlines(ACC_FILE)[TOKEN_LINE_IN_FILE].chomp
+TOKEN = IO.readlines(ACC_FILE)[TOKEN_LINE_IN_FILE].chomp()
 
 PROGRAM_FOLDER_PATH = Dir.pwd
 # puts (Dir.entries(PROGRAM_FOLDER_PATH))
