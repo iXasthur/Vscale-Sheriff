@@ -17,7 +17,6 @@ $EMAIL = ""
 
 $SERVER_NAMES_ARRAY = Array.new()
 $SERVER_CTID_ARRAY = Array.new()
-$CACHED_SERVERS = 0
 
 
 rdyToExit = false
