@@ -17,7 +17,7 @@ $EMAIL = ""
 
 $SERVER_NAMES_ARRAY = Array.new()
 $SERVER_CTID_ARRAY = Array.new()
-
+$CACHED_SERVERS = 0
 
 
 rdyToExit = false
@@ -68,7 +68,16 @@ while rdyToExit==false do
     puts ("\n>Syncing servers")
     syncServers()
 
-    
+
+    clearScreen()
+    printAccInfo()
+    menuIsShown = false
+
+    puts ("\n>Syncing servers")
+
+    puts
+    puts ("Found " + $SERVER_CTID_ARRAY.length().to_s() + " servers")
+    puts
     puts
     # puts (">Press [Enter] to continue")
     # gets
@@ -80,9 +89,12 @@ while rdyToExit==false do
 
     puts ("---Server list:")
     for i in 0...$SERVER_CTID_ARRAY.length() do
-      puts ($SERVER_NAMES_ARRAY[i]+" "+$SERVER_CTID_ARRAY[i])
+      puts ($SERVER_NAMES_ARRAY[i]+" (ctid: "+$SERVER_CTID_ARRAY[i] + ")")
     end
 
+    puts
+    puts ("Server amount: " + $SERVER_CTID_ARRAY.length().to_s())
+    puts
     puts
   else
     puts 'ERROR: Invalid Input'

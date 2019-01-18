@@ -2,12 +2,11 @@
 
 # Creates Array Of Available Servers
 def getServerList(str)
-    puts str
-    puts
+    # puts str
+    # puts
   
     $SERVER_NAMES_ARRAY.clear()
     $SERVER_CTID_ARRAY.clear()
-    $SERVER_AMOUNT_CACHED = 0
   
     # puts str.index("\"name\"")
     buffName = ""

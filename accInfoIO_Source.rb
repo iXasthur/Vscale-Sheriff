@@ -14,6 +14,14 @@ def printAccInfo
     puts ('AppFolder: ' + PROGRAM_FOLDER_PATH)
     puts ('Token: ' + TOKEN)
     puts ('E-mail: ' + $EMAIL)
+    puts ('Cached servers: ' + $SERVER_CTID_ARRAY.length().to_s())
+end
+
+def printAccInfo_ZeroCached
+  puts ('AppFolder: ' + PROGRAM_FOLDER_PATH)
+  puts ('Token: ' + TOKEN)
+  puts ('E-mail: ' + $EMAIL)
+  puts ('Cached servers: ' + $SERVER_CTID_ARRAY.length().to_s() + '->0')
 end
 
 
@@ -29,8 +37,8 @@ end
 # Reads Info From Response
 def findAccInfo(str)
 
-  if str.index("email")!=nil then
-    i = str.index("email") + "email".length + 3
+  if str.index("\"email\"")!=nil then
+    i = str.index("\"email\"") + "\"email\"".length + 2
 
     while str[i]!='"' do
       $EMAIL+=str[i]
