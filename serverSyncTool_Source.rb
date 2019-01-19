@@ -66,7 +66,7 @@ def syncServers
       case response.code.to_i()
       when 200..299
         getServerList(response.body)
-        puts (">Sync has been completed")
+        # puts (">Sync has been completed")
       when 400..499
         puts 'ERROR: Can\'t access account'
       when 500..599
