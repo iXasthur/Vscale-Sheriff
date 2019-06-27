@@ -1,59 +1,38 @@
 
 
-# Creates Array Of Available Servers
-def getServerList(str)
-    # puts str
-    # puts
-  
-    $SERVER_NAMES_ARRAY.clear()
-    $SERVER_CTID_ARRAY.clear()
-  
-    # puts str.index("\"name\"")
-    buffName = ''
-    buffCTID = ''
-  
 
-    while str.index("\"name\"")!=nil
-      i = str.index("\"name\"") + "\"name\"".length + 3
-  
-      while str[i]!='"' do
-        buffName << str[i]
-        i+=1
-      end
-      str[str.index("\"name\"")+1] = ''
-  
-      if str.index("\"ctid\"")!=nil then
-        i = str.index("\"ctid\"") + "\"ctid\"".length + 2
-    
-        while str[i]!='}' do
-          buffCTID << str[i]
-          i+=1
-        end
-        str[str.index("\"ctid\"")+1] = ''
-  
-        $SERVER_NAMES_ARRAY << buffName
-        $SERVER_CTID_ARRAY << buffCTID
-  
-        buffName = ""
-        buffCTID = ""
-      end
-  
-  
-      # puts buffName
-      # puts buffCTID
-  
-    end
-  
-    
+def getServers(account)
+  body = requestServers(account.getToken)
+  jsn = JSON.parse(body)
+  i = 0
+  jsn.each do |sv|
+    account.addServer(sv['name'],sv['ctid'])
+    i = i + 1
+  end
+  return i
 end
-  
-  
-# Server Sync Begin
-def syncServers
+
+
+def syncServers(accounts)
+  i = 0
+  accounts.each do |account|
+    if account.getCount != -1 then
+      i = i + getServers(account)
+    end
+  end
+
+  return i
+end
+
+
+
+
+# Server Sync
+def requestServers(token)
 
       uri = URI.parse('https://api.vscale.io/v1/scalets')
       request = Net::HTTP::Get.new(uri)
-      request['X-Token'] = TOKEN
+      request['X-Token'] = token
       req_options = {
         use_ssl: uri.scheme == "https",
       }
@@ -63,15 +42,24 @@ def syncServers
         http.request(request)
       end
 
+
       case response.code.to_i
       when 200..299
-        getServerList(response.body)
-        # puts (">Sync has been completed")
+        return (response.body)
       when 400..499
-        puts 'ERROR: Can\'t access account'
+        s = '{"info": {"email": "'
+        s = s + ERROR_MSG_1
+        s = s + '"}}'
+        return s
       when 500..599
-        puts 'ERROR: Vscale Server is not available'
+        s = '{"info": {"email": "'
+        s = s + ERROR_MSG_2
+        s = s + '"}}'
+        return s
       else
-        puts 'ERROR: Unknown Error'
+        s = '{"info": {"email": "'
+        s = s + ERROR_MSG_3
+        s = s + '"}}'
+        return s
       end
 end
