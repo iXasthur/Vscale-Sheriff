@@ -4,24 +4,27 @@ require 'json'
 require 'certified'
 load 'accInfoIO_Source.rb'
 load 'createServerTool_Source.rb'
-load 'removalTool_Source.rb'
-load 'serverSyncTool_Source.rb'
+# load 'removalTool_Source.rb'
+# load 'serverSyncTool_Source.rb'
 
 ACC_FILE = 'AccountPreferences.txt'.freeze
-TOKEN_LINE_IN_FILE = 0
-TOKEN = IO.readlines(ACC_FILE)[TOKEN_LINE_IN_FILE].chomp
-
 PROGRAM_FOLDER_PATH = Dir.pwd
-# puts (Dir.entries(PROGRAM_FOLDER_PATH))
 
-$EMAIL = ''
+# Accounts
+class Account
+  def initialize(token, arr)
+    @token = token
+    @servers = arr
+  end
+end
 
-$SERVER_NAMES_ARRAY = Array[]
-$SERVER_CTID_ARRAY = Array[]
+
+# TOKEN_LINE_IN_FILE = 0
+# TOKEN = IO.readlines(ACC_FILE)[TOKEN_LINE_IN_FILE].chomp
 
 
-rdyToExit = false
-menuIsShown = false
+rdy_to_exit = false
+menu_is_show = false
 
 
 # -----MAIN-----
@@ -30,69 +33,30 @@ getInfo
 
 
 # Main Menu
-while rdyToExit == false
+while rdy_to_exit == false
 
-  if menuIsShown == false
+  if menu_is_show == false
     puts("---Menu:\n1-Add Servers \n2-Remove Servers \n3-Sync Servers \n4-Server list\n0-Exit")
     puts
-    menuIsShown = true
+    menu_is_show = true
   end
   print('>')
-  # key = gets()
 
   case gets.chomp
   when '0'
-    rdyToExit = true
+    rdy_to_exit = true
   when '1'
-    puts("Not available")
+    puts('Not available')
   when '2'
-    clearScreen
-    printAccInfo
-    menuIsShown = false
-    puts
-
-    serverRemovalMenu
-
-    clearScreen
-    printAccInfo
-    puts
+    menu_is_show = false
   when '3'
-    clearScreen
-    printAccInfo
-    menuIsShown = false
-
-    puts("\n>Syncing servers")
-    syncServers
-
-
-    clearScreen
-    printAccInfo
-    menuIsShown = false
-
-    puts("\n>Syncing servers")
-
-    puts
-    puts("Found " + $SERVER_CTID_ARRAY.length().to_s() + " servers")
-    puts
-    puts
+    menu_is_show = false
   when '4'
-    clearScreen
-    printAccInfo
-    menuIsShown = false
-    puts
-
-    puts('---Server list:')
-    for i in 0...$SERVER_CTID_ARRAY.length()
-      puts($SERVER_NAMES_ARRAY[i]+" (ctid: "+$SERVER_CTID_ARRAY[i] + ")")
-    end
-
-    puts
-    puts('Server amount: ' + $SERVER_CTID_ARRAY.length.to_s)
-    puts
-    puts
+    menu_is_show = false
   else
     puts 'ERROR: Invalid Input'
   end
+
 end
 
 
