@@ -5,7 +5,9 @@ def clearScreen
   system 'clear' or system 'cls'
   puts
 
-  puts '---VscaleSheriff v2'
+  puts '-> VscaleSheriff PRO v2.13  (c) Mikhail Kavaleuski'
+  puts '-> ETH: 0x212Eb1FaEaaFd7ea1a14668573C9C044a34a2bf0'
+  puts
   puts('AppFolder: ' + PROGRAM_FOLDER_PATH)
   puts
 end
@@ -38,6 +40,11 @@ def printAccountList(accounts)
       puts
     end
   end
+
+  if accounts.count == 0
+    puts('There is no accounts found. Please input tokens in ' + ACC_FILE + ' (each token from a new line)')
+    puts
+  end
 end
 
 
@@ -54,6 +61,7 @@ def getInfo(accounts)
       accounts[accounts.count - 1].invalidate
     end
   end
+
 end
 
 def printHead(accounts)
@@ -73,11 +81,14 @@ def printAccounts(accounts)
 
   i = 1
   accounts.each do |account|
-    print (i.to_s + '. ')
+    print (i.to_s.rjust(2) + '. ')
     printAccInfo(account,maxl)
     i = i + 1
   end
 
+  if accounts.count == 0
+    puts('There is no accounts found. Please input tokens in ' + ACC_FILE + ' (each token from a new line)')
+  end
   puts
   puts
 end

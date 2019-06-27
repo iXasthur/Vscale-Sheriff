@@ -3,16 +3,15 @@ require 'uri'
 require 'json'
 require 'certified'
 load 'accInfoIO.rb'
-# load 'removalTool_Source.rb'
+load 'removalTool_Source.rb'
 load 'serverSyncTool_Source.rb'
 
-ACC_FILE = 'AccountPreferences.txt'.freeze
+ACC_FILE = 'Tokens.txt'.freeze
 PROGRAM_FOLDER_PATH = Dir.pwd
 
 ERROR_MSG_1 = "Can't access account"
 ERROR_MSG_2 = "Vsacle Server is not available"
 ERROR_MSG_3 = "Unknown Error"
-
 
 # Accounts
 class Account
@@ -47,6 +46,16 @@ class Account
   def readServer(i)
     return @servers[i]
   end
+
+  def removeFirst
+    @servers.shift
+    @count = @count - 1
+  end
+
+  def clearServers
+    @servers = []
+    @count = 0
+  end
 end
 
 
@@ -58,46 +67,72 @@ accounts = Array[]
 
 # -----MAIN-----
 
-getInfo(accounts)
-printHead(accounts)
+clearScreen
 
-# Main Menu
-while rdy_to_exit == false
+if File.exists?(ACC_FILE)
 
-  if menu_is_show == false
-    puts("---Menu:\n1-Add Servers \n2-Remove Servers \n3-Sync Servers \n4-Server list\n0-Exit")
-    puts
-    menu_is_show = true
+  puts '>Connecting to the server'
+  puts
+
+  getInfo(accounts)
+  printAccounts(accounts)
+
+  # Main Menu
+  while rdy_to_exit == false
+
+    if menu_is_show == false
+      puts("---Menu:\n1-Add Servers \n2-Remove ALL Servers \n3-Sync Servers \n4-Server list\n0-Exit")
+      puts
+      menu_is_show = true
+    end
+    print('>')
+
+    case gets.chomp
+    when '0'
+      rdy_to_exit = true
+    when '1'
+      puts('Not available')
+    when '2'
+      menu_is_show = false
+      clearScreen
+
+      puts('>Removing all servers')
+      puts
+      puts ('>Successfully removed ' + serverRemoveAll(accounts).to_s + ' servers')
+      puts
+
+      printAccounts(accounts)
+    when '3'
+      menu_is_show = false
+      clearScreen
+
+      puts('>Clearing existing servers')
+      puts('>Syncing servers')
+      puts('>Added ' + syncServers(accounts).to_s + ' servers')
+      puts
+
+      printAccounts(accounts)
+    when '4'
+      menu_is_show = false
+      clearScreen
+
+      printAccountList(accounts)
+
+      puts
+    else
+      puts 'ERROR: Invalid Input'
+    end
+
   end
-  print('>')
 
-  case gets.chomp
-  when '0'
-    rdy_to_exit = true
-  when '1'
-    puts('Not available')
-  when '2'
-    menu_is_show = false
-  when '3'
-    menu_is_show = false
-    clearScreen
-
-    puts('>Syncing servers')
-    puts('>Added ' + syncServers(accounts).to_s + ' servers')
-    puts
-
-    printAccounts(accounts)
-  when '4'
-    menu_is_show = false
-    clearScreen
-
-    printAccountList(accounts)
-
-    puts
-  else
-    puts 'ERROR: Invalid Input'
-  end
-
+else
+  puts('>Unable to find file ' + ACC_FILE)
+  File.new(ACC_FILE,"w")
+  puts('>File ' + ACC_FILE + ' has been created in application directory')
+  puts('>Please input tokens here(each token from a new line)')
+  puts
+  puts('Press <Enter> to exit')
+  gets
 end
 
 

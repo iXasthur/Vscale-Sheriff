@@ -6,7 +6,7 @@ def getServers(account)
   jsn = JSON.parse(body)
   i = 0
   jsn.each do |sv|
-    account.addServer(sv['name'],sv['ctid'])
+    account.addServer(sv['name'],sv['ctid'].to_s)
     i = i + 1
   end
   return i
@@ -17,6 +17,7 @@ def syncServers(accounts)
   i = 0
   accounts.each do |account|
     if account.getCount != -1 then
+      account.clearServers
       i = i + getServers(account)
     end
   end
