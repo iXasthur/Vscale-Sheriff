@@ -75,21 +75,19 @@ while rdyToExit == false
     puts("Found " + $SERVER_CTID_ARRAY.length().to_s() + " servers")
     puts
     puts
-    # puts (">Press [Enter] to continue")
-    # gets
   when '4'
     clearScreen
     printAccInfo
     menuIsShown = false
     puts
 
-    puts("---Server list:")
+    puts('---Server list:')
     for i in 0...$SERVER_CTID_ARRAY.length()
       puts($SERVER_NAMES_ARRAY[i]+" (ctid: "+$SERVER_CTID_ARRAY[i] + ")")
     end
 
     puts
-    puts("Server amount: " + $SERVER_CTID_ARRAY.length().to_s())
+    puts('Server amount: ' + $SERVER_CTID_ARRAY.length.to_s)
     puts
     puts
   else
