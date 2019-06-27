@@ -1,14 +1,14 @@
 require 'net/http'
 require 'uri'
 require 'json'
-#require 'certified'
+require 'certified'
 load 'accInfoIO_Source.rb'
 load 'createServerTool_Source.rb'
 load 'removalTool_Source.rb'
 load 'serverSyncTool_Source.rb'
 
 ACC_FILE = "AccountPreferences.txt"
-TOKEN_LINE_IN_FILE = 1
+TOKEN_LINE_IN_FILE = 0
 TOKEN = IO.readlines(ACC_FILE)[TOKEN_LINE_IN_FILE].chomp()
 
 PROGRAM_FOLDER_PATH = Dir.pwd
