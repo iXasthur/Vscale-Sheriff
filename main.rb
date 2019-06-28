@@ -16,7 +16,7 @@ ERROR_MSG_3 = "Unknown Error"
 CLS_MSG_1 = '-> VscaleSheriff PRO v2.13  (c) Mikhail Kavaleuski'
 CLS_MSG_2 = '-> ETH: 0x212Eb1FaEaaFd7ea1a14668573C9C044a34a2bf0'
 
-# Clear Terminal
+# Clears Terminal
 def clearScreen
   system 'clear' or system 'cls'
   puts

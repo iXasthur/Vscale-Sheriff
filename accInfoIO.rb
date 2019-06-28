@@ -1,3 +1,4 @@
+# Prints account list
 def printAccountList(accounts)
   maxl = 0
   accounts.each do |account|
