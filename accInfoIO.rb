@@ -1,19 +1,3 @@
-
-
-# Clear Terminal
-def clearScreen
-  system 'clear' or system 'cls'
-  puts
-
-  puts '-> VscaleSheriff PRO v2.13  (c) Mikhail Kavaleuski'
-  puts '-> ETH: 0x212Eb1FaEaaFd7ea1a14668573C9C044a34a2bf0'
-  puts
-  puts('AppFolder: ' + PROGRAM_FOLDER_PATH)
-  puts
-end
-
-
-
 def printAccountList(accounts)
   maxl = 0
   accounts.each do |account|
@@ -62,11 +46,6 @@ def getInfo(accounts)
     end
   end
 
-end
-
-def printHead(accounts)
-  clearScreen
-  printAccounts(accounts)
 end
 
 # Prints accounts

@@ -13,6 +13,21 @@ ERROR_MSG_1 = "Can't access account"
 ERROR_MSG_2 = "Vsacle Server is not available"
 ERROR_MSG_3 = "Unknown Error"
 
+CLS_MSG_1 = '-> VscaleSheriff PRO v2.13  (c) Mikhail Kavaleuski'
+CLS_MSG_2 = '-> ETH: 0x212Eb1FaEaaFd7ea1a14668573C9C044a34a2bf0'
+
+# Clear Terminal
+def clearScreen
+  system 'clear' or system 'cls'
+  puts
+
+  puts CLS_MSG_1
+  puts CLS_MSG_2
+  puts
+  puts('App Folder: ' + PROGRAM_FOLDER_PATH)
+  puts
+end
+
 # Accounts
 class Account
   def initialize(token, email, count, arr)
